@@ -1,0 +1,17 @@
+# Hello ESPE.
+# Wheel encoder at 1/10 s, IMU at 1/20 s, same field count so '#' is legal.
+# A line whose first non-space character is '#' is a comment.
+# Mid-line '#' is the interleave operator.
+
+DECLARE v UINT STREAM wheel, 1/10 FILE 'wheel.txt'
+DECLARE v UINT STREAM imu, 1/20 FILE 'imu.txt'
+
+# Beatty interleave. Output period is 1/30 s: imu, imu, wheel, repeating.
+SELECT * STREAM bus FROM wheel#imu
+
+# Align onto the faster clock. The slower sample is held (floor index).
+SELECT * STREAM fused FROM wheel+imu
+
+# Split bus back apart. The argument is the delta of the stream being removed.
+SELECT * STREAM wheel_back FROM bus&1/20
+SELECT * STREAM imu_back FROM bus%1/10
