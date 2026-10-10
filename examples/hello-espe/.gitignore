@@ -1,0 +1,8 @@
+# Stream bodies written by xretractor. Sources stay as *.txt.
+bus
+fused
+wheel_back
+imu_back
+wheel
+imu
+STREAM_*

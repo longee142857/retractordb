@@ -254,6 +254,22 @@ Note: the interlace operator `#` requires both input streams to have the same nu
 
 (More ready-made examples live under [examples/](examples/), e.g. [examples/session-record-1/query.rql](examples/session-record-1/query.rql).)
 
+**Hello path (deterministic).** [examples/hello-espe/](examples/hello-espe/) is a two-rate wheel/IMU sample: `#` interleaves, `+` holds the slower sample on the faster clock, `&` / `%` split the interleave back apart. [examples/hello-espe/DEMO.md](examples/hello-espe/DEMO.md) is a short Chinese walkthrough. Without a build:
+
+```bash
+cd examples/hello-espe
+python3 oracle.py
+```
+
+With `xretractor` installed (or present under `build/Debug` or `build/Release`):
+
+```bash
+cd examples/hello-espe
+./run.sh
+```
+
+`./run.sh` runs `xretractor query.rql --name hello-espe -r -k -f -u` and checks the stored records. The same interleave identity, bit for bit, is what `ctest -R deinterleave_roundtrip` locks.
+
 **1. Sanity-check (compile only)** - no data processing, just validate the query set:
 
 ```bash
